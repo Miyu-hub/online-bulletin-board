@@ -1,0 +1,8 @@
+<body>
+    <form action="/renew2/<%= @content.id %>" method="post">
+        <p>title:<input class="border-color" type="text" name="title" value="<% @content.name %>"></p>
+        <p>body:<input class="border-color" type="text" name="body" value="<% @content.body %>"></p>
+        
+        <input type="submit" value="編集完了" style="color: #b988a2;" class="btn">
+    </form>
+</body>

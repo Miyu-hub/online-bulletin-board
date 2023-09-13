@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+       
+        <meta charset="UTF-8">
+         
+         <link  rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" 
+                integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
+                crossorigin="anonymous">
+        <link href="/style.css" rel="stylesheet">
+        
+        <title>タイトル</title>
+    </head>
+    <body>
+        <%= yield %>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" 
+                crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" 
+                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" 
+                crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" 
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" 
+                crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+        <script>
+            bsCustomFileInput.init();
+        </script>
+        <script src="https://kit.fontawesome.com/d10f4b2a2d.js" crossorigin="anonymous"></script>
+        <script>
+    $('input[id=lefile]').change(function() {
+      $('#photoCover').val($(this).val());
+    });
+  </script>
+  <script>$('.sel').each(function() {
+                $(this).children('select').css('display', 'none');
+                
+                var $current = $(this);
+                
+                $(this).find('option').each(function(i) {
+                  if (i == 0) {
+                    $current.prepend($('<div>', {
+                      class: $current.attr('class').replace(/sel/g, 'sel__box')
+                    }));
+                    
+                    var placeholder = $(this).text();
+                    $current.prepend($('<span>', {
+                      class: $current.attr('class').replace(/sel/g, 'sel__placeholder'),
+                      text: placeholder,
+                      'data-placeholder': placeholder
+                    }));
+                    
+                    return;
+                  }
+                  
+                  $current.children('div').append($('<span>', {
+                    class: $current.attr('class').replace(/sel/g, 'sel__box__options'),
+                    text: $(this).text()
+                  }));
+                });
+              });
+              
+              // Toggling the `.active` state on the `.sel`.
+              $('.sel').click(function() {
+                $(this).toggleClass('active');
+              });
+              
+              // Toggling the `.selected` state on the options.
+              $('.sel__box__options').click(function() {
+                var txt = $(this).text();
+                var index = $(this).index();
+                
+                $(this).siblings('.sel__box__options').removeClass('selected');
+                $(this).addClass('selected');
+                
+                var $currentSel = $(this).closest('.sel');
+                $currentSel.children('.sel__placeholder').text(txt);
+                $currentSel.children('select').prop('selectedIndex', index + 1);
+              });
+  </script>
+    </body>
+</html>

@@ -1,0 +1,119 @@
+<% unless session[:user] %>
+<div class="signin-page">
+    <a href="/signin" class="signin2">ログイン</a>  <a href="/signup" class="signin2">新規登録</a><br>
+    <h2 class="signin">未ログイン</h2>
+    </div>
+    
+
+    <% else %>
+   <div>
+    <div>
+        <header><a href="/signout" class="button">logout</a>
+<button type="button" class="btn button" data-toggle="modal" data-target="#exampleModal">
+categories</button>
+</header>
+        <div class="post" style="width: 750px">
+        <h2 class="login"><%= User.find(session[:user]).mail %>としてログイン</h2>
+        <form action="/new" method="post" enctype="multipart/form-data" style="margin-top: 12px;">
+            <p>title <input type="text" name="user_name" style="border-top-color:#b988a2; outline: none;" class="border-color"></p>
+            <p> body <input type="text" name="body" style="border-top-color:#b988a2; outline: none;" class="border-color"></p>
+                        <div class="form-group">
+                            <div class="custom-file">
+                                <input id="lefile" type="file" style="display:none" name="file">
+                                    <div class="input-group">
+                                      <input type="text" id="photoCover" class="form-control" placeholder="select file...">
+                                      <script>
+                                          $('input[id=lefile]').change(function() {
+                                            $('#photoCover').val($(this).val());
+                                          });
+                                       </script>
+                                      <span class="input-group-btn"><button type="button" class="btn btn-info" style="color: #b988a2; background: #ffffff; border-color:#b988a2;" onclick="$('input[id=lefile]').click();">Browser</button></span>
+                                    </div>
+                            </div>
+                        </div>
+
+                        
+
+                    
+           <div class="sel">
+               <select name="category" id="category">
+                <option value="" selected>Category</option>
+                <% @categories.each do |category| %>
+                <option value="<%= category.id %>"><%= category.name %></option>
+                <% end %>
+            </select>
+            </div> 
+            
+            <button class="btn" type="submit" ><i class="button-font fa-solid fa-upload fa-xl" ></i></button>
+        </div>
+            
+        </form>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">編集</h1>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        
+        <form action="/category" method="post">
+            <div class="Category-edit">
+            <p class="editor">名前<input type="text" name="category" class="border-color"></p>
+            <button class="btn" type="submit" value="完了" ><i class="button-font fa-solid fa-square-check fa-xl" ></i></button>
+            </div>
+      </form>
+            
+      </div>
+      
+        <div class="category">
+            <a href="/all">すべての投稿</a>
+            <% @categories.each do |category| %>
+            <div class="Category-edit">
+                <a href="/category/<%= category.id %>" class="signin2"><%= category.name %></a>
+                <div  class="category-edit">
+                <form action="/delete/<%= category.id %>" method="post">
+                    <button type="submit" class="btn" ><i class="button-font fa-solid fa-trash-can fa-xl" ></i></button>
+                </form>
+                <a href="/edit/<%= category.id %>"><i class="button-font fa-solid fa-pen-to-square fa-xl" ></i></a></div>
+            </div>
+            <% end %>
+          
+        </div>
+      <div class="modal-footer">
+            
+      </div>
+        
+    </div>
+  </div>
+</div>
+     </div>
+        
+        
+        <% if @category_name.present? %>
+        <h2><%= @category_name %></h2>
+        <% end %>
+                    <div class="contributions2">
+        <% @contents.each do |content| %>
+
+                <div class="contributions" style="width: 500px"><br>
+                            <%= User.find_by(id: content.user_id).mail %>
+                            <p><%= content.name %></p>
+                            <p><%= content.body %></p>
+                            
+                         
+                    <% unless content.img.empty?%> 
+                        <p><img width="200vw" src="<%= content.img %>"></p><br>
+                    <% end %>
+                <div  class="category-edit">
+                    <a href="/edit2/<%= content.id %>"><i class="button-font fa-solid fa-pen-to-square fa-xl" ></i></a>
+                    <form action="/delete2/<%= content.id %>" method="post">
+                        <button class="btn"><i class="button-font fa-solid fa-trash-can fa-xl" ></i></button>
+                    </form>
+                </div>
+            </div>
+        <% end %>
+</div>
+   
+<% end %>
