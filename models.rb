@@ -13,7 +13,7 @@ end
 
 class Contribution < ActiveRecord::Base
     belongs_to :user
-    belongs_to :categories
+    belongs_to :contributions
 end    
 class Category < ActiveRecord::Base
     has_many :contributions, dependent: :destroy
